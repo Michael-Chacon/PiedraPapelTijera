@@ -12,38 +12,47 @@ const imgAtaqueEnemigo = document.getElementById("img-ataque-enemigo")
 const nombreAtaqueJugador = document.getElementById("nombre-ataque-jugador")
 const nombreAtaqueEnemigo = document.getElementById("nombre-ataque-enemigo")
 
-let botones = []
 let ataquesJuagdor = []
-let ataqueEnemigo
+let ataqueEnemigo 
 
-
-// document.addEventListener("DOMContentLoaded", () =>{
-//     console.log("botones: " + botones)
-
-// })
 
 function iniciarJuego(){
    botones = document.querySelectorAll(".BAtaque")
 }
 
-btnSeleccion.addEventListener("click", seleccionarAtaque)
+
 sectionReiniciar.addEventListener("click", reiniciarJuego)
 
 btnPiedra.addEventListener("click", () =>{
     ataquesJuagdor.push("Piedra")
     btnPiedra.disabled = true
+    btnPiedra.style.background = "#6D5D6E"
     console.log(ataquesJuagdor)
+    validateNumberAttacks()
 })
+
 btnPapel.addEventListener("click", () =>{
     ataquesJuagdor.push("Papel")
     btnPapel.disabled = true
+    btnPapel.style.background = "#6D5D6E"
     console.log(ataquesJuagdor)
+    validateNumberAttacks()
 })
+
 btnTijera.addEventListener("click", () =>{
     ataquesJuagdor.push("Tijera")
     btnTijera.disabled = true
+    btnTijera.style.background = "#6D5D6E"
     console.log(ataquesJuagdor)
+    validateNumberAttacks()
 })
+
+function validateNumberAttacks(){
+    if (ataquesJuagdor.length === 3){
+        sectionResultado.style.display = "flex"
+    sectionAtaque.style.display = "none"
+    }
+}
 
 function identifyAttacks(){
     console.log(botones)
@@ -51,24 +60,6 @@ function identifyAttacks(){
 
 function reiniciarJuego(){
     location.reload()
-}
-
-function seleccionarAtaque(){
-    if (btnPiedra.checked){
-        ataqueJuagdor = "Piedra"
-    }else if (btnPapel.checked){
-        ataqueJuagdor = "Papel"
-    }else if (btnTijera.checked){
-        ataqueJuagdor = "Tijera"
-    }else{
-        alert("No has elegido ataque")
-        return
-    }
-    console.log(ataqueJuagdor)
-    sectionResultado.style.display = "flex"
-    sectionAtaque.style.display = "none"
-    ataqueAleatorioEnemigo()
-    combate()
 }
 
 function ataqueAleatorioEnemigo(){
