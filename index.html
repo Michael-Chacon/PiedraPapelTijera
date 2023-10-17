@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priedra Papel Tijera</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    
+    <h1 class="title">Piedre, papel o tijera</h1>
+    
+    <section class="seleccionar-ataque" id="section-ataque">
+        <h2 class="subtitulo">Selecciona el ataque</h2>
+        
+        <section class="tarjetas-ataque">
+            <div class="tarjetas">
+                <input type="radio" name="ataque" id="piedra">
+                <label for="piedra" class="contenido-tarjeta">
+                    <img src="./assets/piedra.png" alt="piedra">
+                    <p>Piedra</p>
+                </label>
+            </div>
+            <div class="tarjetas">
+                <input type="radio" name="ataque" id="papel">
+                <label for="papel" class="contenido-tarjeta">
+                    <img src="./assets/papel.png" alt="papel">
+                    <p>Papel</p>
+                </label>
+            </div>
+            <div class="tarjetas">
+                <input type="radio" name="ataque" id="tijera">
+                <label for="tijera" class="contenido-tarjeta">
+                    <img src="./assets/tijera.png" alt="tijera">
+                    <p>Tijera</p>
+                </label>
+            </div>
+        </section>
+        <button id="btn-seleccionar">Seleccionar</button>
+
+    </section>
+
+
+    <section class="section-resultado" id="section-resultado">
+        <h2 class="subtitulo">Combate</h2>
+        
+        <div class="resultado">
+            <p id="resultado">Perdiste :v</p>
+            <botton id="reiniciar" class="boton-reiniciar">Reiniciar</botton>
+        </div>
+
+        <section class="section-combate">
+            <div class="combate">
+                <div class="info-jugador">
+                    <img src="/assets/piedra.png" alt="ataque-jugador" id="img-ataque-jugador">
+                    <p id="nombre-ataque-jugador">Piedra</p>
+                    <small class="roles">Tu</small>
+                </div>
+                <div class="info-enemigo">
+                    <img src="./assets/tijera.png" alt="ataque-enemigo" id="img-ataque-enemigo">
+                    <p id="nombre-ataque-enemigo">Tijera</p>
+                    <small class="roles">Enemigo</small>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script src="./js/pipati.js"></script>
+</body>
+</html>
