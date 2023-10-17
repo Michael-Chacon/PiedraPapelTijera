@@ -13,7 +13,7 @@ const nombreAtaqueJugador = document.getElementById("nombre-ataque-jugador")
 const nombreAtaqueEnemigo = document.getElementById("nombre-ataque-enemigo")
 
 let ataquesJuagdor = []
-let ataqueEnemigo 
+let ataquesEnemigo = []
 
 
 function iniciarJuego(){
@@ -23,6 +23,10 @@ function iniciarJuego(){
 
 sectionReiniciar.addEventListener("click", reiniciarJuego)
 
+function reiniciarJuego(){
+    location.reload()
+}
+
 btnPiedra.addEventListener("click", () =>{
     ataquesJuagdor.push("Piedra")
     btnPiedra.disabled = true
@@ -30,6 +34,7 @@ btnPiedra.addEventListener("click", () =>{
     console.log(ataquesJuagdor)
     validateNumberAttacks()
 })
+
 
 btnPapel.addEventListener("click", () =>{
     ataquesJuagdor.push("Papel")
@@ -39,6 +44,7 @@ btnPapel.addEventListener("click", () =>{
     validateNumberAttacks()
 })
 
+
 btnTijera.addEventListener("click", () =>{
     ataquesJuagdor.push("Tijera")
     btnTijera.disabled = true
@@ -47,33 +53,30 @@ btnTijera.addEventListener("click", () =>{
     validateNumberAttacks()
 })
 
+
 function validateNumberAttacks(){
     if (ataquesJuagdor.length === 3){
         sectionResultado.style.display = "flex"
-    sectionAtaque.style.display = "none"
+        sectionAtaque.style.display = "none"
+        ataqueAleatorioEnemigo()
+        // console.log(ataquesJuagdor.length)
     }
 }
 
-function identifyAttacks(){
-    console.log(botones)
-}
-
-function reiniciarJuego(){
-    location.reload()
-}
 
 function ataqueAleatorioEnemigo(){
-    const ataqueAleatorio = aleatoriedad(1,3)
-    if (ataqueAleatorio === 1){
-        ataqueEnemigo = "Piedra"
-    }else if (ataqueAleatorio === 2){
-        ataqueEnemigo = "Papel"
-    }else if (ataqueAleatorio === 3){
-        ataqueEnemigo = "Tijera"
+    for (let i = 1; i <= ataquesJuagdor.length; i++){
+        const ataqueAleatorio = aleatoriedad(1,3)
+        if (ataqueAleatorio === 1){
+            ataquesEnemigo.push("Piedra")
+        }else if (ataqueAleatorio === 2){
+            ataquesEnemigo.push("Papel")
+        }else if (ataqueAleatorio === 3){
+            ataquesEnemigo.push("Tijera")
+        }
     }
-    console.log(ataqueEnemigo)
-
 }
+
 
 function combate(){
     if (ataqueJuagdor === ataqueEnemigo){
@@ -91,6 +94,7 @@ function combate(){
     showAttacks()
 }
 
+
 function showImgAttack(attack){
     if (attack === "Piedra"){
         return '/assets/piedra.png'
@@ -101,12 +105,14 @@ function showImgAttack(attack){
     }
 }
 
+
 function showAttacks(){
     nombreAtaqueEnemigo.innerHTML = ataqueEnemigo
     nombreAtaqueJugador.innerHTML = ataqueJuagdor
     imgAtaqueJugador.src = showImgAttack(ataqueJuagdor)
     imgAtaqueEnemigo.src = showImgAttack(ataqueEnemigo)
 }
+
 
 function showResult(mensaje){
     console.log(mensaje)
