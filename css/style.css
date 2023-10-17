@@ -68,19 +68,24 @@ body{
 
 .combate{
     display: grid;
-    grid-template-columns: 150px 150px;
+    grid-template-columns: 150px 150px 100px;
 }
 
-.info-jugador, .info-enemigo{
+.info-jugador, .info-enemigo, .info-empate{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.info-jugador img, .info-enemigo img{
-    width: 80px;
-    height: 80px;
+.info-jugador img, .info-enemigo img, .info-empate img{
+    width: 40px;
+    height: 40px;
+}
+
+.info-empate{
+    margin-top: 1px;
+    font-size: 16px;
 }
 
 .roles{
