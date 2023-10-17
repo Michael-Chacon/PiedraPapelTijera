@@ -1,7 +1,7 @@
 const sectionAtaque = document.getElementById("section-ataque")
-const inputPiedra = document.getElementById("piedra")
-const inputPapel = document.getElementById("papel")
-const inputTijera = document.getElementById("tijera")
+const btnPiedra = document.getElementById("piedra")
+const btnPapel = document.getElementById("papel")
+const btnTijera = document.getElementById("tijera")
 const btnSeleccion = document.getElementById("btn-seleccionar")
 
 const sectionResultado = document.getElementById("section-resultado")
@@ -12,26 +12,53 @@ const imgAtaqueEnemigo = document.getElementById("img-ataque-enemigo")
 const nombreAtaqueJugador = document.getElementById("nombre-ataque-jugador")
 const nombreAtaqueEnemigo = document.getElementById("nombre-ataque-enemigo")
 
-let ataqueJuagdor
+let botones = []
+let ataquesJuagdor = []
 let ataqueEnemigo
 
-// function iniciarJuego(){
-//    console.log(imgAtaqueJugador)
-// }
+
+// document.addEventListener("DOMContentLoaded", () =>{
+//     console.log("botones: " + botones)
+
+// })
+
+function iniciarJuego(){
+   botones = document.querySelectorAll(".BAtaque")
+}
 
 btnSeleccion.addEventListener("click", seleccionarAtaque)
 sectionReiniciar.addEventListener("click", reiniciarJuego)
+
+btnPiedra.addEventListener("click", () =>{
+    ataquesJuagdor.push("Piedra")
+    btnPiedra.disabled = true
+    console.log(ataquesJuagdor)
+})
+btnPapel.addEventListener("click", () =>{
+    ataquesJuagdor.push("Papel")
+    btnPapel.disabled = true
+    console.log(ataquesJuagdor)
+})
+btnTijera.addEventListener("click", () =>{
+    ataquesJuagdor.push("Tijera")
+    btnTijera.disabled = true
+    console.log(ataquesJuagdor)
+})
+
+function identifyAttacks(){
+    console.log(botones)
+}
 
 function reiniciarJuego(){
     location.reload()
 }
 
 function seleccionarAtaque(){
-    if (inputPiedra.checked){
+    if (btnPiedra.checked){
         ataqueJuagdor = "Piedra"
-    }else if (inputPapel.checked){
+    }else if (btnPapel.checked){
         ataqueJuagdor = "Papel"
-    }else if (inputTijera.checked){
+    }else if (btnTijera.checked){
         ataqueJuagdor = "Tijera"
     }else{
         alert("No has elegido ataque")

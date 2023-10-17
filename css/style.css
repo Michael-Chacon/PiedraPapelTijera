@@ -25,14 +25,14 @@ body{
     margin-top: 50px;
 }
 
-input{
+/* input{
     display: none;
 }
 
 input:checked + label{
     background-color: #6D5D6E;
     border: 1px solid black;
-}
+} */
 
 .tarjetas-ataque{
     display: flex;
