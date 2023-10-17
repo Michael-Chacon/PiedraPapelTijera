@@ -7,13 +7,13 @@ const btnSeleccion = document.getElementById("btn-seleccionar")
 const sectionResultado = document.getElementById("section-resultado")
 const mostrarResultado = document.getElementById("resultado")
 const sectionReiniciar = document.getElementById("reiniciar")
-const imgAtaqueJugador = document.getElementById("img-ataque-jugador")
-const imgAtaqueEnemigo = document.getElementById("img-ataque-enemigo")
 const nombreAtaqueJugador = document.getElementById("nombre-ataque-jugador")
 const nombreAtaqueEnemigo = document.getElementById("nombre-ataque-enemigo")
 const playerLives = document.getElementById("vidas-jugador")
 const enemyLives = document.getElementById("vidas-enemigo")
 const tie = document.getElementById("empates")
+const infoEnemigo = document.getElementById("info-enemigo")
+const infoJugador = document.getElementById("info-jugador")
 
 let ataquesJuagdor = []
 let ataquesEnemigo = []
@@ -82,7 +82,7 @@ function ataqueAleatorioEnemigo(){
 
 
 function combate(){
-    for (let i = 1; i <= ataquesJuagdor.length; i++) {
+    for (let i = 0; i <= ataquesJuagdor.length - 1; i++) {
         if (ataquesJuagdor[i] === ataquesEnemigo[i]){
             empates++
         }else if (ataquesJuagdor[i] === "Papel" && ataquesEnemigo[i] === "Piedra"){
@@ -95,17 +95,13 @@ function combate(){
             vidasEnemigo++
         }
     }
-    showAttacks()
-    console.log(ataquesJuagdor)
-    console.log(ataquesEnemigo)
-    showLives()
+   
     validateLives()
 }
 
-function showLives(){
-    playerLives.innerHTML = vidasJugador
-    enemyLives.innerHTML = vidasEnemigo
-    tie.innerHTML = empates
+function showResult(mensaje){
+    console.log(mensaje)
+    mostrarResultado.innerHTML = mensaje
 }
 
 function validateLives(){
@@ -116,32 +112,43 @@ function validateLives(){
     }else if(vidasJugador < vidasEnemigo){
         showResult("Perdiste :v")
     }
-    
+    showLives()
 }
 
 
-function showImgAttack(attack){
-    if (attack === "Piedra"){
-        return '/assets/piedra.png'
-    }else if (attack === 'Papel'){
-        return '/assets/papel.png'
-    }else if (attack === 'Tijera'){
-        return '/assets/tijera.png'
-    }
+function showLives(){
+    playerLives.innerHTML = vidasJugador
+    enemyLives.innerHTML = vidasEnemigo
+    tie.innerHTML = empates
+    showAttacks()
 }
 
 
-function showAttacks(){
-    nombreAtaqueEnemigo.innerHTML = ataquesEnemigo
-    nombreAtaqueJugador.innerHTML = ataquesJuagdor
-    imgAtaqueJugador.src = showImgAttack(ataquesJuagdor)
-    imgAtaqueEnemigo.src = showImgAttack(ataquesEnemigo)
+function showAttacks(){    
+    showImgAttack(ataquesJuagdor, 'jugador')
+    showImgAttack(ataquesEnemigo, 'enemigo')
 }
 
 
-function showResult(mensaje){
-    console.log(mensaje)
-    mostrarResultado.innerHTML = mensaje
+function showImgAttack(attacks, character){
+    attacks.forEach(attack => {
+        let goal = null
+        if (attack === "Piedra"){
+            goal = `<img src="./assets/piedra.png" alt="ataque-enemigo" id="img-ataque-enemigo">
+            <small class="nombre-ataque">Piedra</small>`
+        }else if (attack === 'Papel'){
+            goal = `<img src="./assets/papel.png" alt="ataque-enemigo" id="img-ataque-enemigo">
+            <small class="nombre-ataque">Papel</small>`
+        }else if (attack === 'Tijera'){
+            goal = `<img src="./assets/tijera.png" alt="ataque-enemigo" id="img-ataque-enemigo">
+            <small class="nombre-ataque">Tijera</small>`
+        }
+        if (character === 'jugador') {
+            infoJugador.innerHTML += goal
+        }else if (character === 'enemigo'){
+            infoEnemigo.innerHTML += goal
+        }
+    })
 }
 
 

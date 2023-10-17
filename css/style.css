@@ -59,11 +59,10 @@ body{
     margin-top: 50px
 }
 
-
+/* 
 .section-combate{
     display: flex;
-    justify-content: center;
-}
+} */
 
 
 .combate{
@@ -126,4 +125,8 @@ body{
 
 .boton-reiniciar:hover{
     border: 1px solid white;
+}
+
+.nombre-ataque{
+    margin-bottom: 20px;
 }
