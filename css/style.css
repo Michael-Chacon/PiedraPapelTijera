@@ -34,6 +34,52 @@ body{
     gap: 15px;
 }
 
+.section-charcters{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* align-content: center; */
+}
+
+.tarjetas-personajes{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+input{
+    display: none;
+}
+
+input:checked + label{
+    background-color: #DA0C81
+}
+
+
+.contenido-tarjeta-personajes{
+    background-color: #4F4557;
+    box-sizing: border-box;
+    padding: 3px;
+    display: flex;
+    border-radius: 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: white;
+}
+
+.contenido-tarjeta-personajes img{
+    width: 150px;
+    height: 283px;
+    object-fit: cover;
+}
+
+
 .contenido-tarjeta{
     background-color: #4F4557;
     box-sizing: border-box;
@@ -46,6 +92,7 @@ body{
     border: none;
     color: white;
 }
+
 
 .contenido-tarjeta img{
     width: 120px;
@@ -125,6 +172,24 @@ body{
 
 .boton-reiniciar:hover{
     border: 1px solid white;
+}
+
+.boton-seleccionar{
+    margin-top: 20px;
+    padding: 10px 20px 10px 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: white;
+    border-radius: 20px;
+    border: 1px solid #DA0C81;
+    cursor: pointer;
+    font-family: 'Inconsolata', monospace;
+    font-size: 18px;
+}
+
+.boton-seleccionar:hover{
+    background-color: #DA0C81;
+    /* border: 1px solid gray; */
 }
 
 .nombre-ataque{

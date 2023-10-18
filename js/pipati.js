@@ -1,3 +1,5 @@
+const selectCharackters = document.getElementById("select-character")
+
 const sectionAtaque = document.getElementById("section-ataque")
 const btnPiedra = document.getElementById("piedra")
 const btnPapel = document.getElementById("papel")
@@ -17,10 +19,37 @@ let ataquesEnemigo = []
 let vidasJugador = 0
 let vidasEnemigo = 0
 let empates = 0
+let characters = []
+let allCharacters
 
+class Character{
+    constructor(name, photo){
+        this.name = name
+        this.photo = photo
+    }
+}
+
+let batman = new Character("Batman", "./assets/batman.png")
+let goku = new Character("Goku", "./assets/goku.png")
+let vegeta = new Character("Vegeta", "./assets/vegeta.png")
+let joker = new Character("Joker", "./assets/joker.png")
+let gogeta = new Character("Gogeta", "./assets/gogeta.png")
+
+characters.push(batman, goku, vegeta, joker, gogeta)
 
 function iniciarJuego(){
-   botones = document.querySelectorAll(".BAtaque")
+    sectionAtaque.style.display = "none"
+    
+   characters.forEach(character => {
+    allCharacters = `
+    <input type="radio" name="mascota" id=${character.name}>
+    <label for=${character.name} class="contenido-tarjeta-personajes">
+        <img src=${character.photo} alt=${character.name}>
+        <p id="name-character">${character.name}</p>
+    </label>
+    `
+    selectCharackters.innerHTML += allCharacters
+   })
 }
 
 
@@ -151,3 +180,5 @@ function showImgAttack(attacks, character){
 function aleatoriedad(min, max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+window.addEventListener("load", iniciarJuego)
