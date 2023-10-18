@@ -2,13 +2,10 @@ const sectionAtaque = document.getElementById("section-ataque")
 const btnPiedra = document.getElementById("piedra")
 const btnPapel = document.getElementById("papel")
 const btnTijera = document.getElementById("tijera")
-const btnSeleccion = document.getElementById("btn-seleccionar")
 
 const sectionResultado = document.getElementById("section-resultado")
 const mostrarResultado = document.getElementById("resultado")
 const sectionReiniciar = document.getElementById("reiniciar")
-const nombreAtaqueJugador = document.getElementById("nombre-ataque-jugador")
-const nombreAtaqueEnemigo = document.getElementById("nombre-ataque-enemigo")
 const playerLives = document.getElementById("vidas-jugador")
 const enemyLives = document.getElementById("vidas-enemigo")
 const tie = document.getElementById("empates")
@@ -100,7 +97,6 @@ function combate(){
 }
 
 function showResult(mensaje){
-    console.log(mensaje)
     mostrarResultado.innerHTML = mensaje
 }
 
