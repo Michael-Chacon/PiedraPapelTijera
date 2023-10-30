@@ -1,4 +1,6 @@
 const selectCharackters = document.getElementById("select-character")
+const sectionCahracter = document.getElementById("section-character")
+const btnSelectCharackters = document.getElementById("btn-select-character")
 
 const sectionAtaque = document.getElementById("section-ataque")
 const btnPiedra = document.getElementById("piedra")
@@ -14,6 +16,13 @@ const tie = document.getElementById("empates")
 const infoEnemigo = document.getElementById("info-enemigo")
 const infoJugador = document.getElementById("info-jugador")
 
+let inputBatman 
+let inputGoku 
+let inputVegeta 
+let inputJoker 
+let inputGogeta 
+
+
 let ataquesJuagdor = []
 let ataquesEnemigo = []
 let vidasJugador = 0
@@ -21,6 +30,8 @@ let vidasEnemigo = 0
 let empates = 0
 let characters = []
 let allCharacters
+let characterChecked
+
 
 class Character{
     constructor(name, photo){
@@ -43,13 +54,37 @@ function iniciarJuego(){
    characters.forEach(character => {
     allCharacters = `
     <input type="radio" name="mascota" id=${character.name}>
-    <label for=${character.name} class="contenido-tarjeta-personajes">
+    <label for=${character.name} class="contenido-tarjeta-personajes characters">
         <img src=${character.photo} alt=${character.name}>
         <p id="name-character">${character.name}</p>
     </label>
     `
     selectCharackters.innerHTML += allCharacters
    })
+    inputBatman = document.getElementById("Batman")
+    inputGoku = document.getElementById("Goku")
+    inputVegeta = document.getElementById("Vegeta")
+    inputJoker = document.getElementById("Joker")
+    inputGogeta = document.getElementById("Gogeta")
+   btnSelectCharackters.addEventListener("click", selectCharacter)
+}
+
+function selectCharacter(){
+    if(inputBatman.checked){
+        characterChecked = inputBatman.id
+    }else if (inputGoku.checked){
+        characterChecked = inputGoku.id
+    }else if (inputJoker.checked){
+        characterChecked = inputJoker.id
+    }else if (inputVegeta.checked){
+        characterChecked = inputVegeta.id
+    }else if (inputGogeta.checked){
+        characterChecked = inputGogeta.id
+    }
+    console.log(characterChecked)
+    sectionCahracter.style.display = "none"
+    sectionAtaque.style.display = "flex"
+
 }
 
 
