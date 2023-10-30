@@ -99,6 +99,12 @@ input:checked + label{
     height: 120px;
 }
 
+.mapa{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .section-resultado{
     display: none;
     flex-direction: column;

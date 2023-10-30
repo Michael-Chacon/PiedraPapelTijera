@@ -16,6 +16,16 @@
             <button class="boton-seleccionar" id="btn-select-character">Seleccionar</button>
     </section>    
 
+    <section class="mapa" id="show-map">
+        <canvas id="map"></canvas>
+        <div class="comandos">
+            <button class="boton-seleccionar" onmouseup="stopMovement()" onmousedown="moveUp()">Arriba</button>
+            <button class="boton-seleccionar" onmouseup="stopMovement()" onmousedown="moveDown()">Abajo</button>
+            <button class="boton-seleccionar" onmouseup="stopMovement()" onmousedown="moveLeft()">Izquierda</button>
+            <button class="boton-seleccionar" onmouseup="stopMovement()" onmousedown="moveRight()">Derecha</button>
+        </div>
+    </section>
+
     <section class="seleccionar-ataque" id="section-ataque">
         <h2 class="subtitulo">Selecciona la secuencia de los ataques</h2>
         

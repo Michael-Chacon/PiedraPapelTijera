@@ -16,12 +16,17 @@ const tie = document.getElementById("empates")
 const infoEnemigo = document.getElementById("info-enemigo")
 const infoJugador = document.getElementById("info-jugador")
 
+const showMap = document.getElementById("show-map")
+const map = document.getElementById("map")
+
+
+
 let inputBatman 
 let inputGoku 
 let inputVegeta 
 let inputJoker 
 let inputGogeta 
-
+let id
 
 let ataquesJuagdor = []
 let ataquesEnemigo = []
@@ -32,23 +37,62 @@ let characters = []
 let allCharacters
 let characterChecked
 
+let intervalo
+let objectOfPlayer
+let lienzo = map.getContext("2d")
+let imgBackground = new Image()
+imgBackground.src = './assets/mapa.jpg'
+const anchoMaxismoMapa = 750
+let alturaQueBuscamos
+let anchoDelMapa = window.innerWidth - 20 
+
+if (anchoDelMapa > anchoMaxismoMapa){
+    anchoDelMapa = anchoMaxismoMapa - 20
+}
+
+
+
+alturaQueBuscamos = anchoDelMapa * 600 / 800 
+map.width = anchoDelMapa
+map.height = alturaQueBuscamos
 
 class Character{
-    constructor(name, photo){
+    constructor(name, photo, mapaFoto){
         this.name = name
         this.photo = photo
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = mapaFoto
+        this.id = id
+        this.ataques = []
+        this.ancho = 100
+        this.alto = 140
+        this.x = aleatoriedad(0, map.width - this.ancho)
+        this.y = aleatoriedad(0, map.height - this.alto)
+        this.speedX = 0
+        this.speedY = 0
+    }
+
+    drawCharacter(){
+        lienzo.drawImage(
+            this.mapaFoto, 
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto
+        )
     }
 }
 
-let batman = new Character("Batman", "./assets/batman.png")
-let goku = new Character("Goku", "./assets/goku.png")
-let vegeta = new Character("Vegeta", "./assets/vegeta.png")
-let joker = new Character("Joker", "./assets/joker.png")
-let gogeta = new Character("Gogeta", "./assets/gogeta.png")
+let minato = new Character("Minato", "./assets/minatop.png", "./assets/fminato.png")
+let goku = new Character("Goku", "./assets/gokup.png", "./assets/fgoku.png")
+let obito = new Character("Obito", "./assets/obitop.png", "./assets/fobito.png")
+let naruto = new Character("Naruto", "./assets/narutop.png", "./assets/fnaruto.png")
+let madara = new Character("Madara", "./assets/madara.png", "./assets/fmadara.png")
 
-characters.push(batman, goku, vegeta, joker, gogeta)
+characters.push(minato, goku, obito, naruto, madara)
 
 function iniciarJuego(){
+    showMap.style.display = "none"
     sectionAtaque.style.display = "none"
     
    characters.forEach(character => {
@@ -61,11 +105,11 @@ function iniciarJuego(){
     `
     selectCharackters.innerHTML += allCharacters
    })
-    inputBatman = document.getElementById("Batman")
+    inputBatman = document.getElementById("Minato")
     inputGoku = document.getElementById("Goku")
-    inputVegeta = document.getElementById("Vegeta")
-    inputJoker = document.getElementById("Joker")
-    inputGogeta = document.getElementById("Gogeta")
+    inputVegeta = document.getElementById("Naruto")
+    inputJoker = document.getElementById("Madara")
+    inputGogeta = document.getElementById("Obito")
    btnSelectCharackters.addEventListener("click", selectCharacter)
 }
 
@@ -81,18 +125,87 @@ function selectCharacter(){
     }else if (inputGogeta.checked){
         characterChecked = inputGogeta.id
     }
-    console.log(characterChecked)
+
     sectionCahracter.style.display = "none"
-    sectionAtaque.style.display = "flex"
+    showMap.style.display = "flex"
+    startMap()
+    
+    console.log(objectOfPlayer)
+}
 
+function startMap(){
+    objectOfPlayer = getDataPlayer()
+    intervalo = setInterval(drawMap, 50)
+    console.log("hola")
+    window.addEventListener('keydown', dectectKey)
+    window.addEventListener('keyup', stopMovement)
+}
+
+function dectectKey(event){
+    switch(event.key){
+        case "ArrowUp":
+            moveUp()
+            break
+        case "ArrowDown":
+            moveDown()
+            break
+        case "ArrowLeft":
+            moveLeft()
+            break
+        case "ArrowRight":
+            moveRight()
+            break
+    }
 }
 
 
-sectionReiniciar.addEventListener("click", reiniciarJuego)
 
-function reiniciarJuego(){
-    location.reload()
+function getDataPlayer(){
+    for (let i = 0; i < characters.length; i++){
+        if(characterChecked === characters[i].name){
+            return characters[i]
+        }
+    }
 }
+
+function drawMap(){
+    objectOfPlayer.x += objectOfPlayer.speedX
+    objectOfPlayer.y += objectOfPlayer.speedY
+
+
+    lienzo.clearRect(0, 0, map.width, map.height)
+    lienzo.drawImage(
+        imgBackground,
+        0,
+        0,
+        map.width,
+        map.height
+    )
+
+    objectOfPlayer.drawCharacter()
+}
+
+
+
+function moveUp(){
+    objectOfPlayer.speedY = -5
+}
+function moveDown(){
+    objectOfPlayer.speedY = 5
+}
+function moveLeft(){
+    objectOfPlayer.speedX = -5
+}
+function moveRight(){
+    objectOfPlayer.speedX = 5
+}
+
+
+function stopMovement(){
+    objectOfPlayer.speedX = 0
+    objectOfPlayer.speedY = 0
+}
+
 
 btnPiedra.addEventListener("click", () =>{
     ataquesJuagdor.push("Piedra")
@@ -215,5 +328,12 @@ function showImgAttack(attacks, character){
 function aleatoriedad(min, max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+sectionReiniciar.addEventListener("click", reiniciarJuego)
+
+function reiniciarJuego(){
+    location.reload()
+}
+
 
 window.addEventListener("load", iniciarJuego)
