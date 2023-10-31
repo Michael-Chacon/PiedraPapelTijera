@@ -142,12 +142,12 @@ function selectCharacter(){
 function startMap(){
     objectOfPlayer = getDataPlayer()
     intervalo = setInterval(drawMap, 50)
-    window.addEventListener('keydown', dectectKey)
+    window.addEventListener('keydown', detectKey)
     window.addEventListener('keyup', stopMovement)
 }
 
 
-function dectectKey(event){
+function detectKey(event){
     switch(event.key){
         case "ArrowUp":
             moveUp()
@@ -190,6 +190,7 @@ function drawMap(){
 
     objectOfPlayer.drawCharacter()
     enemy.drawCharacter()
+    detectCollision()
 }
 
 
@@ -216,6 +217,27 @@ function moveRight(){
 function stopMovement(){
     objectOfPlayer.speedX = 0
     objectOfPlayer.speedY = 0
+}
+
+function detectCollision(){
+    const upEnemy = enemy.y
+    const downEnemy = enemy.y + enemy.alto
+    const leftEnemy = enemy.x
+    const rightEnemy = enemy.x + enemy.ancho
+
+    const upPlayer = objectOfPlayer.y
+    const downPlayer = objectOfPlayer.y + objectOfPlayer.alto
+    const leftPlayer = objectOfPlayer.x
+    const rightPlayer = objectOfPlayer.x + objectOfPlayer.ancho
+
+    if (upPlayer > downEnemy || downPlayer < upEnemy || leftPlayer > rightEnemy || rightPlayer < leftEnemy){
+        return
+    }
+    clearInterval(intervalo)
+    stopMovement()
+    showMap.style.display = "none"
+    sectionAtaque.style.display = "flex"
+
 }
 
 
