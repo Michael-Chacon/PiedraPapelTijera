@@ -34,14 +34,17 @@ let vidasJugador = 0
 let vidasEnemigo = 0
 let empates = 0
 let characters = []
+let EnemyCharacters = []
 let allCharacters
 let characterChecked
 
 let intervalo
 let objectOfPlayer
+let enemy
+let objectOfEnemys = []
 let lienzo = map.getContext("2d")
 let imgBackground = new Image()
-imgBackground.src = './assets/mapa.jpg'
+imgBackground.src = './assets/mapa4.jpg'
 const anchoMaxismoMapa = 750
 let alturaQueBuscamos
 let anchoDelMapa = window.innerWidth - 20 
@@ -64,8 +67,8 @@ class Character{
         this.mapaFoto.src = mapaFoto
         this.id = id
         this.ataques = []
-        this.ancho = 100
-        this.alto = 140
+        this.ancho = 80
+        this.alto = 100
         this.x = aleatoriedad(0, map.width - this.ancho)
         this.y = aleatoriedad(0, map.height - this.alto)
         this.speedX = 0
@@ -91,6 +94,7 @@ let madara = new Character("Madara", "./assets/madara.png", "./assets/fmadara.pn
 
 characters.push(minato, goku, obito, naruto, madara)
 
+
 function iniciarJuego(){
     showMap.style.display = "none"
     sectionAtaque.style.display = "none"
@@ -113,6 +117,7 @@ function iniciarJuego(){
    btnSelectCharackters.addEventListener("click", selectCharacter)
 }
 
+
 function selectCharacter(){
     if(inputBatman.checked){
         characterChecked = inputBatman.id
@@ -129,17 +134,18 @@ function selectCharacter(){
     sectionCahracter.style.display = "none"
     showMap.style.display = "flex"
     startMap()
-    
-    console.log(objectOfPlayer)
+    objectOfEnemys = characters.filter(items => items != objectOfPlayer)
+    getEnemy()
 }
+
 
 function startMap(){
     objectOfPlayer = getDataPlayer()
     intervalo = setInterval(drawMap, 50)
-    console.log("hola")
     window.addEventListener('keydown', dectectKey)
     window.addEventListener('keyup', stopMovement)
 }
+
 
 function dectectKey(event){
     switch(event.key){
@@ -159,7 +165,6 @@ function dectectKey(event){
 }
 
 
-
 function getDataPlayer(){
     for (let i = 0; i < characters.length; i++){
         if(characterChecked === characters[i].name){
@@ -167,6 +172,7 @@ function getDataPlayer(){
         }
     }
 }
+
 
 function drawMap(){
     objectOfPlayer.x += objectOfPlayer.speedX
@@ -183,8 +189,14 @@ function drawMap(){
     )
 
     objectOfPlayer.drawCharacter()
+    enemy.drawCharacter()
 }
 
+
+function getEnemy(){
+   const indexEnemy =  aleatoriedad(0, objectOfEnemys.length - 1)
+    enemy = objectOfEnemys[indexEnemy]
+}
 
 
 function moveUp(){
@@ -273,9 +285,11 @@ function combate(){
     validateLives()
 }
 
+
 function showResult(mensaje){
     mostrarResultado.innerHTML = mensaje
 }
+
 
 function validateLives(){
     if (vidasEnemigo === vidasJugador){
@@ -329,7 +343,9 @@ function aleatoriedad(min, max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+
 sectionReiniciar.addEventListener("click", reiniciarJuego)
+
 
 function reiniciarJuego(){
     location.reload()
