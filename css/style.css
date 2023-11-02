@@ -7,7 +7,7 @@ body{
 }
 
 .title{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 
@@ -144,6 +144,11 @@ input:checked + label{
     font-size: 13px;
 }
 
+.img-win{
+    width: 100px;
+
+}
+
 .resultado{
     margin-bottom: 13px;
     background-color: #4F4557;
@@ -181,7 +186,7 @@ input:checked + label{
 }
 
 .boton-seleccionar{
-    margin-top: 20px;
+    margin-top: 5px;
     padding: 10px 20px 10px 20px;
     box-sizing: border-box;
     background-color: transparent;

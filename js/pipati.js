@@ -45,7 +45,7 @@ let objectOfEnemys = []
 let lienzo = map.getContext("2d")
 let imgBackground = new Image()
 imgBackground.src = './assets/mapa4.jpg'
-const anchoMaxismoMapa = 750
+const anchoMaxismoMapa = 700
 let alturaQueBuscamos
 let anchoDelMapa = window.innerWidth - 20 
 
@@ -314,20 +314,24 @@ function showResult(mensaje){
 
 
 function validateLives(){
+    const imgWin = document.getElementById("img-win")
     if (vidasEnemigo === vidasJugador){
-        showResult("Empate -_-")
+        showResult("Empate")
+        imgWin.src = "./assets/tie.png"
     }else if (vidasJugador > vidasEnemigo){
-        showResult("Ganaste :)")
+        showResult("Ganaste")
+        imgWin.src = objectOfPlayer.photo
     }else if(vidasJugador < vidasEnemigo){
-        showResult("Perdiste :v")
+        showResult("Perdiste")
+        imgWin.src = enemy.photo
     }
     showLives()
 }
 
 
 function showLives(){
-    playerLives.innerHTML = vidasJugador
-    enemyLives.innerHTML = vidasEnemigo
+    playerLives.innerHTML = `${objectOfPlayer.name}: ${vidasJugador}`
+    enemyLives.innerHTML = `${enemy.name}: ${vidasEnemigo}`
     tie.innerHTML = empates
     showAttacks()
 }
