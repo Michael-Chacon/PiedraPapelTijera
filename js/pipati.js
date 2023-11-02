@@ -298,26 +298,42 @@ function validateNumberAttacks(){
         sectionResultado.style.display = "flex"
         sectionAtaque.style.display = "none"
         ataqueAleatorioEnemigo()
+        sendAttacks()
         combate()
     }
 }
 
+function sendAttacks(){
+    fetch(`http://localhost:8080/player/${playerId}/attacks`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({
+            attacks: ataquesJuagdor
+        })
+    })
+    intervalo = setInterval(getAttacks, 50)
+}
 
-function ataqueAleatorioEnemigo(){
-    for (let i = 1; i <= ataquesJuagdor.length; i++){
-        const ataqueAleatorio = aleatoriedad(1,3)
-        if (ataqueAleatorio === 1){
-            ataquesEnemigo.push("Piedra")
-        }else if (ataqueAleatorio === 2){
-            ataquesEnemigo.push("Papel")
-        }else if (ataqueAleatorio === 3){
-            ataquesEnemigo.push("Tijera")
+function getAttacks(){
+    fetch(`http://localhost:8080/player/${enemyId}/attacks`)
+    .then(function(res){
+        if(res.ok){
+            res.json()
+            .then(function({attacks}){
+                if (attacks.length === 3){
+                    ataquesEnemigo = attacks
+                    combate()
+                }
+            })
         }
-    }
+    })
 }
 
 
 function combate(){
+    clearInterval(intervalo)
     for (let i = 0; i <= ataquesJuagdor.length - 1; i++) {
         if (ataquesJuagdor[i] === ataquesEnemigo[i]){
             empates++

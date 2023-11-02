@@ -14,6 +14,10 @@ class Player{
     assignCharacter(character){
         this.character = character
     }
+
+    assignAttacks(attack){
+        this.attack = attack
+    }
 }
 
 class Character{
@@ -42,9 +46,30 @@ app.post('/player/:playerId', (req, res) => {
 
     console.log("Id jugador: " + playerId)
     console.log("nombre: " + name)
-    console.log("personaje: " + players.character)
     res.end()
 })
+
+
+app.post('/player/:playerId/attacks', (req, res) => {
+    const playerId = req.params.playerId || ''
+    const attacks = req.body.attacks || []
+
+    const indexPlayer = players.findIndex(player => playerId === player.id)
+    if (indexPlayer >=0){
+        players[indexPlayer].assignAttacks(attacks)
+    }
+    res.end()
+})
+
+
+app.get('/playes/:playerId/attacks', (req, res) => {
+    const playerId = req.params.playerId || ''
+    const player = players.find(jugador => playerId === jugador.id)
+    res.send({
+        attack: player.attack || []
+    })
+})
+
 
 app.listen(8080, () => {
     console.log("Star server")
