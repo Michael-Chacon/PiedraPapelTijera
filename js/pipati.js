@@ -20,7 +20,7 @@ const showMap = document.getElementById("show-map")
 const map = document.getElementById("map")
 
 
-
+let playerId = null
 let inputBatman 
 let inputGoku 
 let inputVegeta 
@@ -100,21 +100,36 @@ function iniciarJuego(){
     sectionAtaque.style.display = "none"
     
    characters.forEach(character => {
-    allCharacters = `
-    <input type="radio" name="mascota" id=${character.name}>
-    <label for=${character.name} class="contenido-tarjeta-personajes characters">
-        <img src=${character.photo} alt=${character.name}>
-        <p id="name-character">${character.name}</p>
-    </label>
-    `
-    selectCharackters.innerHTML += allCharacters
+        allCharacters = `
+        <input type="radio" name="mascota" id=${character.name}>
+        <label for=${character.name} class="contenido-tarjeta-personajes characters">
+            <img src=${character.photo} alt=${character.name}>
+            <p id="name-character">${character.name}</p>
+        </label>
+        `
+        selectCharackters.innerHTML += allCharacters
    })
+
     inputBatman = document.getElementById("Minato")
     inputGoku = document.getElementById("Goku")
     inputVegeta = document.getElementById("Naruto")
     inputJoker = document.getElementById("Madara")
     inputGogeta = document.getElementById("Obito")
    btnSelectCharackters.addEventListener("click", selectCharacter)
+   joinTheGame()
+}
+
+function joinTheGame(){
+    fetch('http://localhost:8080/unirse')
+    .then(function(res){
+        if(res.ok){
+            res. text()
+            .then(function(id){
+                console.log(id)
+                playerId = id
+            })
+        }
+    })
 }
 
 
@@ -136,6 +151,19 @@ function selectCharacter(){
     startMap()
     objectOfEnemys = characters.filter(items => items != objectOfPlayer)
     getEnemy()
+    setDataPlayer()
+}
+
+function setDataPlayer(){
+    fetch(`http://localhost:8080/player/${playerId}`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            character: characterChecked
+        })
+    })
 }
 
 
