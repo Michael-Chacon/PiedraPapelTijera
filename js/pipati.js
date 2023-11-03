@@ -62,7 +62,7 @@ map.width = anchoDelMapa
 map.height = alturaQueBuscamos
 
 class Character{
-    constructor(name, photo, mapaFoto){
+    constructor(name, photo, mapaFoto, id = null){
         this.name = name
         this.photo = photo
         this.mapaFoto = new Image()
@@ -244,20 +244,20 @@ function sendPosition(x, y){
                 enemyPlayers = enemy.map(function(enemigo){
                     let jugadorEnemigo = null
                     const nameEnemy = enemigo.character.name
-                    console.log(nameEnemy)
                     if(nameEnemy === "Minato"){
-                        jugadorEnemigo = new Character("Minato", "./assets/minatop.png", "./assets/fminato.png")
+                        jugadorEnemigo = new Character("Minato", "./assets/minatop.png", "./assets/fminato.png", enemigo.id)
                     }else if(nameEnemy === 'Goku'){
-                        jugadorEnemigo = new Character("Goku", "./assets/gokup.png", "./assets/fgoku.png")
+                        jugadorEnemigo = new Character("Goku", "./assets/gokup.png", "./assets/fgoku.png", enemigo.id)
                     }else if(nameEnemy === 'Obito'){
-                        jugadorEnemigo = new Character("Obito", "./assets/obitop.png", "./assets/fobito.png")
+                        jugadorEnemigo = new Character("Obito", "./assets/obitop.png", "./assets/fobito.png", enemigo.id)
                     }else if(nameEnemy === 'Naruto'){
-                        jugadorEnemigo = new Character("Naruto", "./assets/narutop.png", "./assets/fnaruto.png")
+                        jugadorEnemigo = new Character("Naruto", "./assets/narutop.png", "./assets/fnaruto.png", enemigo.id)
                     }else if(nameEnemy === 'Madara'){
-                        jugadorEnemigo = new Character("Madara", "./assets/madara.png", "./assets/fmadara.png")
+                        jugadorEnemigo = new Character("Madara", "./assets/madara.png", "./assets/fmadara.png", enemigo.id)
                     }
                     jugadorEnemigo.x = enemigo.x
                     jugadorEnemigo.y = enemigo.y
+                    // enemyId = enemigo.id 
                     return jugadorEnemigo
                 })
             })
@@ -341,7 +341,6 @@ function validateNumberAttacks(){
         sectionResultado.style.display = "flex"
         sectionAtaque.style.display = "none"
         sendAttacks()
-        // combate()
     }
 }
 
@@ -363,9 +362,9 @@ function getAttacks(){
     .then(function(res){
         if(res.ok){
             res.json()
-            .then(function({attacks}){
-                if (attacks.length === 3){
-                    ataquesEnemigo = attacks
+            .then(function({attack}){
+                if (attack.length === 3){
+                    ataquesEnemigo = attack
                     console.log(ataquesEnemigo)
                     combate()
                 }

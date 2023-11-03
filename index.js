@@ -49,31 +49,10 @@ app.post('/player/:playerId', (req, res) => {
         players[indexPlayer].assignCharacter(character)
     }
 
-    console.log("Id jugador: " + playerId)
-    console.log("nombre: " + name)
+    // console.log("Id jugador: " + playerId)
+    // console.log("nombre: " + name)
     // console.log("++++personaje: " + players.character)
     res.end()
-})
-
-
-app.post('/player/:playerId/attacks', (req, res) => {
-    const playerId = req.params.playerId || ''
-    const attacks = req.body.attacks || []
-
-    const indexPlayer = players.findIndex(player => playerId === player.id)
-    if (indexPlayer >=0){
-        players[indexPlayer].assignAttacks(attacks)
-    }
-    res.end()
-})
-
-
-app.get('/playes/:playerId/attacks', (req, res) => {
-    const playerId = req.params.playerId || ''
-    const player = players.find(jugador => playerId === jugador.id)
-    res.send({
-        attack: player.attack || []
-    })
 })
 
 
@@ -90,6 +69,28 @@ app.post('/player/:playerId/position', (req, res) => {
     const enemy = players.filter(player  => player.id !== playerId)
     res.send({
         enemy: enemy
+    })
+})
+
+
+app.post('/player/:playerId/attacks', (req, res) => {
+    const playerId = req.params.playerId || ''
+    const attacks = req.body.attacks || []
+console.log(attacks)
+    const indexPlayer = players.findIndex(player => playerId === player.id)
+    if (indexPlayer >=0){
+        players[indexPlayer].assignAttacks(attacks)
+    }
+    res.end()
+})
+
+
+app.get('/player/:playerId/attacks', (req, res) => {
+    const playerId = req.params.playerId || ''
+    const player = players.find(jugador => jugador.id === playerId)
+    console.log(playerId)
+    res.send({
+        attack: player.attack || []
     })
 })
 
