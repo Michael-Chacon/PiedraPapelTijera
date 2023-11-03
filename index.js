@@ -18,6 +18,11 @@ class Player{
     assignAttacks(attack){
         this.attack = attack
     }
+
+    assignPosition(x,y){
+        this.x = x
+        this.y = y
+    }
 }
 
 class Character{
@@ -27,7 +32,7 @@ class Character{
 }
 
 
-app.get("/unirse", (req, res) => {
+app.get("/join", (req, res) => {
     const id = `${Math.random()}`
     const player = new Player(id)
     players.push(player)
@@ -46,6 +51,7 @@ app.post('/player/:playerId', (req, res) => {
 
     console.log("Id jugador: " + playerId)
     console.log("nombre: " + name)
+    // console.log("++++personaje: " + players.character)
     res.end()
 })
 
@@ -67,6 +73,24 @@ app.get('/playes/:playerId/attacks', (req, res) => {
     const player = players.find(jugador => playerId === jugador.id)
     res.send({
         attack: player.attack || []
+    })
+})
+
+
+app.post('/player/:playerId/position', (req, res) => {
+    const playerId = req.params.playerId || ''
+    const x = req.body.x || 0
+    const y = req.body.y || 0
+
+    const indexPlayer = players.findIndex(player => playerId === player.id)
+    if (indexPlayer >= 0){
+        players[indexPlayer].assignPosition(x,y)
+    }
+
+    const enemy = players.filter(player  => player.id !== playerId)
+    console.log(enemy)
+    res.send({
+        enemy: enemy
     })
 })
 

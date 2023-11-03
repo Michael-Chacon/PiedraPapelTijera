@@ -21,6 +21,7 @@ const map = document.getElementById("map")
 
 
 let playerId = null
+let enemyId
 let inputBatman 
 let inputGoku 
 let inputVegeta 
@@ -28,6 +29,7 @@ let inputJoker
 let inputGogeta 
 let id
 
+let enemyPlayers = []
 let ataquesJuagdor = []
 let ataquesEnemigo = []
 let vidasJugador = 0
@@ -120,7 +122,7 @@ function iniciarJuego(){
 }
 
 function joinTheGame(){
-    fetch('http://localhost:8080/unirse')
+    fetch('http://localhost:8080/join')
     .then(function(res){
         if(res.ok){
             res. text()
@@ -150,7 +152,7 @@ function selectCharacter(){
     showMap.style.display = "flex"
     startMap()
     objectOfEnemys = characters.filter(items => items != objectOfPlayer)
-    getEnemy()
+    // getEnemy()
     setDataPlayer()
 }
 
@@ -215,17 +217,59 @@ function drawMap(){
         map.width,
         map.height
     )
-
     objectOfPlayer.drawCharacter()
-    enemy.drawCharacter()
-    detectCollision()
+    sendPosition(objectOfPlayer.x, objectOfPlayer.y)
+    // enemy.drawCharacter()
+    enemyPlayers.forEach(function(player){
+        player.drawCharacter()
+        detectCollision(player)
+    })
 }
 
-
-function getEnemy(){
-   const indexEnemy =  aleatoriedad(0, objectOfEnemys.length - 1)
-    enemy = objectOfEnemys[indexEnemy]
+function sendPosition(x, y){
+    fetch(`http://localhost:8080/player/${playerId}/position`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+    .then(function(res){
+        if(res.ok){
+            res.json()
+            .then(function({enemigos}){
+                // console.log(enemigos)
+                enemyPlayers = enemigos.map(function(enemigo){
+                    let jugadorEnemigo = null
+                    const nameEnemy = enemigo.character.name
+                    console.log(nameEnemy)
+                    if(nameEnemy === "Minato"){
+                        jugadorEnemigo = new Character("Minato", "./assets/minatop.png", "./assets/fminato.png")
+                    }else if(nameEnemy === 'Goku'){
+                        jugadorEnemigo = new Character("Goku", "./assets/gokup.png", "./assets/fgoku.png")
+                    }else if(nameEnemy === 'Obito'){
+                        jugadorEnemigo = new Character("Obito", "./assets/obitop.png", "./assets/fobito.png")
+                    }else if(nameEnemy === 'Naruto'){
+                        jugadorEnemigo = new Character("Naruto", "./assets/narutop.png", "./assets/fnaruto.png")
+                    }else if(nameEnemy === 'Madara'){
+                        jugadorEnemigo = new Character("Madara", "./assets/madara.png", "./assets/fmadara.png")
+                    }
+                    jugadorEnemigo.x = enemigo.x
+                    jugadorEnemigo.y = enemigo.y
+                    return jugadorEnemigo
+                })
+            })
+        }
+    })
 }
+
+// function getEnemy(){
+//     const indexEnemy =  aleatoriedad(0, objectOfEnemys.length - 1)
+//     enemy = objectOfEnemys[indexEnemy]
+// }
 
 
 function moveUp(){
@@ -247,11 +291,11 @@ function stopMovement(){
     objectOfPlayer.speedY = 0
 }
 
-function detectCollision(){
-    const upEnemy = enemy.y
-    const downEnemy = enemy.y + enemy.alto
-    const leftEnemy = enemy.x
-    const rightEnemy = enemy.x + enemy.ancho
+function detectCollision(enemigo){
+    const upEnemy = enemigo.y
+    const downEnemy = enemigo.y + enemigo.alto
+    const leftEnemy = enemigo.x
+    const rightEnemy = enemigo.x + enemigo.ancho
 
     const upPlayer = objectOfPlayer.y
     const downPlayer = objectOfPlayer.y + objectOfPlayer.alto
@@ -265,7 +309,7 @@ function detectCollision(){
     stopMovement()
     showMap.style.display = "none"
     sectionAtaque.style.display = "flex"
-
+    enemyId = enemigo.id 
 }
 
 
@@ -297,9 +341,8 @@ function validateNumberAttacks(){
     if (ataquesJuagdor.length === 3){
         sectionResultado.style.display = "flex"
         sectionAtaque.style.display = "none"
-        ataqueAleatorioEnemigo()
         sendAttacks()
-        combate()
+        // combate()
     }
 }
 
@@ -324,6 +367,7 @@ function getAttacks(){
             .then(function({attacks}){
                 if (attacks.length === 3){
                     ataquesEnemigo = attacks
+                    console.log(ataquesEnemigo)
                     combate()
                 }
             })
