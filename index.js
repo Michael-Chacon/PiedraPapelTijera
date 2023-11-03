@@ -88,7 +88,6 @@ app.post('/player/:playerId/position', (req, res) => {
     }
 
     const enemy = players.filter(player  => player.id !== playerId)
-    console.log(enemy)
     res.send({
         enemy: enemy
     })

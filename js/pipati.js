@@ -240,9 +240,8 @@ function sendPosition(x, y){
     .then(function(res){
         if(res.ok){
             res.json()
-            .then(function({enemigos}){
-                // console.log(enemigos)
-                enemyPlayers = enemigos.map(function(enemigo){
+            .then(function({enemy}){
+                enemyPlayers = enemy.map(function(enemigo){
                     let jugadorEnemigo = null
                     const nameEnemy = enemigo.character.name
                     console.log(nameEnemy)
