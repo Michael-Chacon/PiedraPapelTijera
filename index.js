@@ -6,6 +6,7 @@ app.use(cors())
 app.use(express.json())
 const players = []
 
+
 class Player{
     constructor(id){
         this.id = id
@@ -24,6 +25,7 @@ class Player{
         this.y = y
     }
 }
+
 
 class Character{
     constructor(name){
@@ -48,10 +50,6 @@ app.post('/player/:playerId', (req, res) => {
     if (indexPlayer >= 0){
         players[indexPlayer].assignCharacter(character)
     }
-
-    // console.log("Id jugador: " + playerId)
-    // console.log("nombre: " + name)
-    // console.log("++++personaje: " + players.character)
     res.end()
 })
 
@@ -76,7 +74,7 @@ app.post('/player/:playerId/position', (req, res) => {
 app.post('/player/:playerId/attacks', (req, res) => {
     const playerId = req.params.playerId || ''
     const attacks = req.body.attacks || []
-console.log(attacks)
+
     const indexPlayer = players.findIndex(player => playerId === player.id)
     if (indexPlayer >=0){
         players[indexPlayer].assignAttacks(attacks)
@@ -88,7 +86,6 @@ console.log(attacks)
 app.get('/player/:playerId/attacks', (req, res) => {
     const playerId = req.params.playerId || ''
     const player = players.find(jugador => jugador.id === playerId)
-    console.log(playerId)
     res.send({
         attack: player.attack || []
     })

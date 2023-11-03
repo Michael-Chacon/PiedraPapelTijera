@@ -42,8 +42,8 @@ let characterChecked
 
 let intervalo
 let objectOfPlayer
-let enemy
-let objectOfEnemys = []
+let objectOfEnemy
+let jugadorEnemigo
 let lienzo = map.getContext("2d")
 let imgBackground = new Image()
 imgBackground.src = './assets/mapa4.jpg'
@@ -121,6 +121,7 @@ function iniciarJuego(){
    joinTheGame()
 }
 
+
 function joinTheGame(){
     fetch('http://localhost:8080/join')
     .then(function(res){
@@ -151,10 +152,9 @@ function selectCharacter(){
     sectionCahracter.style.display = "none"
     showMap.style.display = "flex"
     startMap()
-    objectOfEnemys = characters.filter(items => items != objectOfPlayer)
-    // getEnemy()
     setDataPlayer()
 }
+
 
 function setDataPlayer(){
     fetch(`http://localhost:8080/player/${playerId}`, {
@@ -219,12 +219,12 @@ function drawMap(){
     )
     objectOfPlayer.drawCharacter()
     sendPosition(objectOfPlayer.x, objectOfPlayer.y)
-    // enemy.drawCharacter()
     enemyPlayers.forEach(function(player){
         player.drawCharacter()
         detectCollision(player)
     })
 }
+
 
 function sendPosition(x, y){
     fetch(`http://localhost:8080/player/${playerId}/position`, {
@@ -242,7 +242,7 @@ function sendPosition(x, y){
             res.json()
             .then(function({enemy}){
                 enemyPlayers = enemy.map(function(enemigo){
-                    let jugadorEnemigo = null
+                    jugadorEnemigo = null
                     const nameEnemy = enemigo.character.name
                     if(nameEnemy === "Minato"){
                         jugadorEnemigo = new Character("Minato", "./assets/minatop.png", "./assets/fminato.png", enemigo.id)
@@ -257,18 +257,12 @@ function sendPosition(x, y){
                     }
                     jugadorEnemigo.x = enemigo.x
                     jugadorEnemigo.y = enemigo.y
-                    // enemyId = enemigo.id 
                     return jugadorEnemigo
                 })
             })
         }
     })
 }
-
-// function getEnemy(){
-//     const indexEnemy =  aleatoriedad(0, objectOfEnemys.length - 1)
-//     enemy = objectOfEnemys[indexEnemy]
-// }
 
 
 function moveUp(){
@@ -289,6 +283,7 @@ function stopMovement(){
     objectOfPlayer.speedX = 0
     objectOfPlayer.speedY = 0
 }
+
 
 function detectCollision(enemigo){
     const upEnemy = enemigo.y
@@ -344,6 +339,7 @@ function validateNumberAttacks(){
     }
 }
 
+
 function sendAttacks(){
     fetch(`http://localhost:8080/player/${playerId}/attacks`, {
         method: 'post',
@@ -357,6 +353,7 @@ function sendAttacks(){
     intervalo = setInterval(getAttacks, 50)
 }
 
+
 function getAttacks(){
     fetch(`http://localhost:8080/player/${enemyId}/attacks`)
     .then(function(res){
@@ -365,7 +362,6 @@ function getAttacks(){
             .then(function({attack}){
                 if (attack.length === 3){
                     ataquesEnemigo = attack
-                    console.log(ataquesEnemigo)
                     combate()
                 }
             })
@@ -409,7 +405,7 @@ function validateLives(){
         imgWin.src = objectOfPlayer.photo
     }else if(vidasJugador < vidasEnemigo){
         showResult("Perdiste")
-        imgWin.src = enemy.photo
+        imgWin.src = jugadorEnemigo.photo
     }
     showLives()
 }
@@ -417,20 +413,20 @@ function validateLives(){
 
 function showLives(){
     playerLives.innerHTML = `${objectOfPlayer.name}: ${vidasJugador}`
-    enemyLives.innerHTML = `${enemy.name}: ${vidasEnemigo}`
+    enemyLives.innerHTML = `${jugadorEnemigo.name}: ${vidasEnemigo}`
     tie.innerHTML = empates
     showAttacks()
 }
 
 
-function showAttacks(){    
+function showAttacks(){   
     showImgAttack(ataquesJuagdor, 'jugador')
     showImgAttack(ataquesEnemigo, 'enemigo')
 }
 
 
-function showImgAttack(attacks, character){
-    attacks.forEach(attack => {
+function showImgAttack(ataques, character){
+    ataques.forEach(attack => {
         let goal = null
         if (attack === "Piedra"){
             goal = `<img src="./assets/piedra.png" alt="ataque-enemigo" id="img-ataque-enemigo">
